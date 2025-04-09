@@ -1,0 +1,58 @@
+import { Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { UsersDAO } from "../DAO/usersDAO";
+import { RespostasDAO } from "../DAO/respostasDAO";
+
+
+interface RequestMiddleware extends Request {
+  user?: any;
+  headers: any;
+}
+
+const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  if (!email || !password) {
+    res.json({ msg: "Usuário ou Senha não informados!" });
+    return;
+  }
+
+  const dadosUsuario = await UsersDAO.getUser(email);
+
+  //Se o usuário não existe
+  if (!dadosUsuario) {
+    res.json({ msg: `Usuário ou senhas inválidos!` });
+    return;
+  }
+
+  //Se usuário existe testa a senha e retorna
+  if (dadosUsuario.password === password) {
+    const date = new Date().getDate();
+    const token = jwt.sign({ date, email }, process.env.JWT_SECRET as string, {
+      expiresIn: "10d",
+    });
+
+    res.json({ msg: "logado", token });
+  } else {
+    res.json({ msg: "senha inválida" });
+  }
+};
+
+const responder = async (req: RequestMiddleware, res: Response) => {
+  const { nome, email, telefone, mensagem } = req.body; 
+  const resposta = await RespostasDAO.postarResposta({
+    nome, email, telefone, mensagem
+  });
+  
+  if (!resposta) {
+    res.status(500).json({ msg: "Erro ao enviar resposta" });
+    return;
+  }
+  res.status(200).json({ msg: "Mensagem enviada" });
+};
+
+const teste = async (req: Request, res: Response) => {
+  res.json({ msg: `Resposta ok` });
+};
+
+export { login, responder, RequestMiddleware, teste };
