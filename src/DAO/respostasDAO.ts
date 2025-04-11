@@ -34,6 +34,24 @@ class RespostasDAO {
             console.error(`Erro deletando respostas. Erro: ${error}`)            
         }
     };
+
+    static async listarTudo(){
+        try {
+            const listarTudo = await respostas.find({}).toArray();
+            return listarTudo;
+        } catch (error) {
+            console.error(`Erro listando respostas. Erro: ${error}`)            
+        }
+    };
+
+    static async pesquisar(valorPesquisa: any) {
+        try {
+            const resultadoPesquisa = await respostas.find({ mensagem: { $regex: valorPesquisa, $options: "i" } }).toArray();
+            return resultadoPesquisa;
+        } catch (error) {
+            console.error(`Erro pesquisando respostas. Erro: ${error}`);
+        }
+    };
 };
 
 export { RespostasDAO };

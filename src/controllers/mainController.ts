@@ -55,4 +55,16 @@ const teste = async (req: Request, res: Response) => {
   res.json({ msg: `Resposta ok` });
 };
 
-export { login, responder, RequestMiddleware, teste };
+const testeLogado = async (req: Request, res: Response) => {
+  const arrayRespostas = await RespostasDAO.listarTudo();
+  res.json(arrayRespostas);
+};
+
+const pesquisar = async (req: Request, res: Response) => {
+  const valorPesquisa = req.body.valorPesquisa;
+  console.log(valorPesquisa);
+  const arrayRespostas = await RespostasDAO.pesquisar(valorPesquisa);
+  res.json(arrayRespostas);
+};
+
+export { login, responder, RequestMiddleware, teste, testeLogado, pesquisar };
