@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/api/v1', mainRouter);
 
 
-const port: string | number = process.env.PORT || 8800;
+const port: string | number = process.env.PORT || 3000;
 const uri: any = process.env.URI_DB;
 
 
@@ -30,10 +30,11 @@ const start = async () => {
         const client = await connectDB(uri);
         await UsersDAO.injectDB(client);
         await RespostasDAO.injectDB(client);
-        
-        app.listen(port, () => {
-            console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-        })
+        if (process.env.VERCEL === undefined) {        
+            app.listen(port, () => {
+                console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+            })
+        }
     } catch (error) {
         console.log(`Not listening on port ${port}`);
         console.log(error);
@@ -41,5 +42,9 @@ const start = async () => {
 };
 
 start();
+
+export default app;
+
+
 
 
