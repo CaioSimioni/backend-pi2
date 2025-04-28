@@ -52,7 +52,8 @@ const responder = async (req: RequestMiddleware, res: Response) => {
 };
 
 const teste = async (req: Request, res: Response) => {
-  res.json({ msg: `Resposta ok` });
+  const data = new Date();
+  res.json({ msg: `Resposta ok as: ${data}` });
 };
 
 const testeLogado = async (req: Request, res: Response) => {
