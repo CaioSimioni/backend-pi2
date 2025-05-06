@@ -8,7 +8,7 @@ const router = express.Router();
 router.route('/teste').get(teste);
 router.route('/login').post(login);
 router.route('/listartudo').get(authMiddleware,testeLogado as any);
-router.route('/pesquisar').get(authMiddleware,pesquisar as any);
+router.route('/pesquisar').get(authMiddleware, pesquisar as any);
 router.route('/responder').post(responder as any);
 
 

@@ -32,9 +32,9 @@ const login = async (req: Request, res: Response) => {
       expiresIn: "10d",
     });
 
-    res.json({ msg: "logado", token });
+    res.status(200).json({ msg: "logado", token });
   } else {
-    res.json({ msg: "senha inválida" });
+    res.status(401).json({ msg: "senha inválida" });
   }
 };
 
@@ -62,7 +62,11 @@ const testeLogado = async (req: Request, res: Response) => {
 };
 
 const pesquisar = async (req: Request, res: Response) => {
-  const valorPesquisa = req.body.valorPesquisa;
+  const { valorPesquisa } = req.query; // Obtém o parâmetro da query string
+  if (!valorPesquisa) {
+    res.status(400).json({ msg: "O parâmetro 'valorPesquisa' é obrigatório." });
+    return;
+  }
   console.log(valorPesquisa);
   const arrayRespostas = await RespostasDAO.pesquisar(valorPesquisa);
   res.json(arrayRespostas);
