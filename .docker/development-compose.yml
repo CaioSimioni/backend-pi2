@@ -5,6 +5,7 @@ services:
     build:
       context: ..
       dockerfile: .docker/Dockerfile
+    container_name: backend_app
     volumes:
       - ..:/app
     ports:

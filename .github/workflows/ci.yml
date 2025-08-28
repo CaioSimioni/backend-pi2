@@ -1,0 +1,32 @@
+name: Integração Contínua
+run-name: ${{ github.actor }} executando CI da branch ${{ github.ref_name }}
+
+on:
+  push:
+    branches: 
+      - dev
+
+jobs:
+  verificando-ambiente-actions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configuração do ambiente
+        run: |
+          echo "Node.js e dependências podem ser configurados aqui"
+      
+      - name: Exibir diretório atual
+        run: pwd
+
+      - name: Listar arquivos
+        run: ls -la
+
+      - name: Validar build
+        run: |
+          echo "Aqui você pode rodar npm install, npm run build, npm test etc."
+
+      - name: Finalização
+        run: echo "Tudo certo!"
