@@ -4,10 +4,12 @@ run-name: ${{ github.actor }} executando CI da branch ${{ github.ref_name }}
 on:
   push:
     branches: 
-      - [main, dev]
+      - main
+      - dev
   pull_request:
     branches:
-      - [main, dev]
+      - main
+      - dev
 
 jobs:
   validation:
@@ -87,7 +89,7 @@ jobs:
       - name: Verificar deploy demo
         run: echo "Verificando se container está ok..."
 
-  resumo:
+  resume:
     name: Resumo do CI
     runs-on: ubuntu-latest
     needs: deploy-demo
