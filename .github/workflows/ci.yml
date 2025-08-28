@@ -77,7 +77,7 @@ jobs:
       - name: Conectando no host de Homolocação
         run: echo "Conectando..."
 
-      - name: Preparando ambiente:
+      - name: Preparando ambiente
         run: echo "Copiar repositório e Verificar dependências..."
 
       - name: Parando o container antigo
