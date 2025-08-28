@@ -5,28 +5,63 @@ on:
   push:
     branches: 
       - dev
+  pull_request:
+    branches:
+      - dev
 
 jobs:
-  verificando-ambiente-actions:
+  validation:
+    name: Valida Ambiente da Acions
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout do código
-        uses: actions/checkout@v4
-
       - name: Configuração do ambiente
-        run: |
-          echo "Node.js e dependências podem ser configurados aqui"
+        run: echo "Configurações do actions..."
       
-      - name: Exibir diretório atual
-        run: pwd
+      - name: Verficando Rede
+        run: echo "Verificando conexão..."
 
-      - name: Listar arquivos
-        run: ls -la
+  build:
+    name: Faz build do projeto
+    runs-on: ubuntu-latest
+    needs: validation
 
-      - name: Validar build
-        run: |
-          echo "Aqui você pode rodar npm install, npm run build, npm test etc."
+    steps:
+      - name: Clonando o repositório
+        run: echo "Clonando o repositório..."
 
-      - name: Finalização
-        run: echo "Tudo certo!"
+      - name: Verificanção do NodeJS
+        run: echo "Instalar o node, e ver a versão"
+
+      - name: Instala depências do projeto
+        run: echo "npm install"
+
+      - name: Build do projeto
+        run: echo "npm build"
+
+  test-unid:
+    name: Testes de unidade
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Rodando testes de unidade
+        run: echo "Ainda não foi implementado nenhum teste de unidade."
+
+  test-integration:
+    name: Testes de Integração
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Rodando testes de integração
+        run: echo "Ainda não foi implementado nenhum teste de integração."
+
+  resumo:
+    name: Resumo do CI
+    runs-on: ubuntu-latest
+    needs: [test-unid, test-integration]
+
+    steps:
+      - name: Resumo da pipeline CI
+        run: echo "Resumindo..."
